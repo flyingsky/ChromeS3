@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+
+  "name": "Chrome S3",
+  "description": "A better Amazon S3 Chrome extension",
+  "version": "1.0",
+
+  "icons": {
+    "16": "images/icons/icon16.png",
+    "48": "images/icons/icon48.png",
+    "128": "images/icons/icon128.png"
+  },
+
+  "browser_action": {
+    "default_icon": {
+      "19": "images/icons/icon19.png",
+      "38": "images/icons/icon38.png"
+    }
+  },
+
+  "background": {
+    "scripts": ["js/background/browser.js", "js/background/background.js"],
+    "persistent": false
+  },
+
+  "permissions": [
+    "https://s3.amazonaws.com/"
+  ],
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

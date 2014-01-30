@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Chrome S3</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+  </head>
+  <body>
+    <script type="text/x-handlebars">
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+                {{#link-to 'buckets'}} S3 {{/link-to}}
+              </li>
+              <li>
+                {{#link-to 'settings'}} Settings {{/link-to}}
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                {{#link-to 'about'}} About {{/link-to}}
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <div class="container" id="mainCont">
+        {{outlet}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="buckets">
+      {{#each}}
+        <div>{{name}}</div>
+      {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="settings">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="secretAccessKey" class="col-sm-2 control-label">Secret key</label>
+          <div class="col-sm-10">
+            {{input type="text" class="form-control" id="secretAccessKey" name="secretAccessKey" value=s3credential.secretAccessKey}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="accessKeyId" class="col-sm-2 control-label">Access key</label>
+          <div class="col-sm-10">
+            {{input type="text" class="form-control" id="accessKeyId" name="accessKeyId" value=s3credential.accessKeyId}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="region" class="col-sm-2 control-label">Region</label>
+          <div class="col-sm-10">
+            {{input type="text" class="form-control" id="region" name="region" value=s3credential.region}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success" {{action 'save'}}>Save</button>
+            <button type="submit" class="btn" {{action 'cancel'}}>Cancel</button>
+          </div>
+        </div>
+      </form>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="about">
+      <div>About Author</div>
+      <div>About Bug</div>
+    </script>
+
+    <script src="js/lib/jquery-2.0.3.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/aws-sdk-2.0.0-rc8.js"></script>
+    <script src="js/lib/handlebars-1.0.0.js"></script>
+    <script src="js/lib/ember.js"></script>
+    <script src="js/lib/ember-data.js"></script>
+    <script src="js/handlebarsHelper.js"></script>
+    <script src="js/s3.js"></script>
+    <script src="js/persistense.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/models/bucket.js"></script>
+    <script src="js/controllers/bucketsController.js"></script>
+    <script src="js/controllers/settingsController.js"></script>
+    <script src="js/controllers/aboutController.js"></script>
+  </body>
+</html>
+
