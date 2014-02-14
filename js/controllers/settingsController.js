@@ -2,36 +2,24 @@
  * User: ramon
  * Date: 1/29/14 11:42 AM
  */
-App.SettingsController = Ember.Controller.extend({
+App.SettingsController = Ember.ObjectController.extend({
 
   actions: {
     save: function() {
       var me = this;
-      var s3credential = me.get('s3credential');
-      persistence.save('s3credential', s3credential);
-      me.copyS3credential();
+      var model = me.get('model');
+      model.save();
+      s3.updateConfig(model);
     },
 
     cancel: function() {
       var me = this;
-      var s3credentialCopy = me.get('s3credentialCopy');
-      me.set('s3credential', $.extend({}, s3credentialCopy));
+      me.get('model').rollback();
     }
   },
 
-  init: function() {
+  copyModel: function(model) {
     var me = this;
-    var s3credential = persistence.load('s3credential', {
-      secretAccessKey: '',
-      accessKeyId: '',
-      region: 'us-east-1'
-    });
-    me.set('s3credential', s3credential);
-    me.copyS3credential();
-  },
-
-  copyS3credential: function() {
-    var me = this;
-    me.set('s3credentialCopy', $.extend({}, me.get('s3credential')));
+    me.clonedModel = Em.copy(model.get('data'));
   }
 });

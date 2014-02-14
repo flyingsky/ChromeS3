@@ -4,8 +4,11 @@
  */
 
 window.s3 = {
-  init: function(props) {
-    AWS.config.update(props);
+  updateConfig: function(props) {
+    if (props && props.get) {
+      props = props.get('data');  //ember-data record
+    }
+    AWS.config.update(props || {});
     return this;
   },
 
