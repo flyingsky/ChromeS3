@@ -24,7 +24,8 @@
   },
 
   "permissions": [
-    "https://s3.amazonaws.com/"
+    "https://s3.amazonaws.com/",
+    "https://*.s3.amazonaws.com/"
   ],
 
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"

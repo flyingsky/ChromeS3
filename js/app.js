@@ -9,6 +9,11 @@ App.SettingsAdapter = DS.LSAdapter.extend({
 });
 
 App.ApplicationAdapter = DS.Adapter.extend({
+  _serverAPI: {
+    'bucket': 'listBuckets',
+    'object': 'listObjects'
+  },
+
   find: function() {
     console.log('TODO find');
   },
@@ -26,21 +31,29 @@ App.ApplicationAdapter = DS.Adapter.extend({
   },
 
   findAll: function(store, type, sinceToken) {
+    return this.findQuery(store, type, null);
+  },
+
+  findQuery: function(store, type, query) {
     console.log(type);
 
+    var me = this,
+      typeKey = type.typeKey,
+      api = me._serverAPI[typeKey];
+
     var resolver = function(resolve, reject) {
-      s3.listBuckets(function(err, data){
+      if (!s3[api]) {
+        reject(new Error('API[' + api + '] does not exist!'));
+        return;
+      }
+
+      s3[api](function(err, data) {
         if (err) {
           reject(err);
         } else {
-          var buckets = data.Buckets;
-          var records = [];
-          for (var i = 0, len = buckets.length; i < len; i++) {
-            records.push(store.createRecord(type, {name: buckets[i].Name}));
-          }
-          resolve(records);
+          resolve(data);
         }
-      });
+      }, query);
     };
 
     var onFulfilled = function(result) {
@@ -52,10 +65,6 @@ App.ApplicationAdapter = DS.Adapter.extend({
     };
 
     return new Ember.RSVP.Promise(resolver).then(onFulfilled, onRejected);
-  },
-
-  findQuery: function() {
-    console.log('TODO findQuery');
   },
 
   findMany: function() {

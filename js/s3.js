@@ -4,7 +4,10 @@
  */
 
 window.s3 = {
+  isConfig: false,
+
   updateConfig: function(props) {
+    this.isConfig = true;
     if (props && props.get) {
       props = props.get('data');  //ember-data record
     }
@@ -13,9 +16,14 @@ window.s3 = {
   },
 
   listBuckets: function(callback) {
-    var me = this;
-    var s3 = new AWS.S3();
-    s3.listBuckets({}, callback);
-    return this;
+    new AWS.S3().listBuckets({}, callback);
+  },
+
+  listObjects: function(callback, params) {
+    if (typeof(params) === 'string') {
+      params = {Bucket: params};
+    }
+    params = $.extend({Delimiter: '/'}, params);
+    new AWS.S3().listObjects(params, callback);
   }
 };

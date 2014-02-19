@@ -16,10 +16,5 @@ App.SettingsController = Ember.ObjectController.extend({
       var me = this;
       me.get('model').rollback();
     }
-  },
-
-  copyModel: function(model) {
-    var me = this;
-    me.clonedModel = Em.copy(model.get('data'));
   }
 });

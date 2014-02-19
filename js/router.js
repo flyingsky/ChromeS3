@@ -4,9 +4,23 @@
  */
 
 App.Router.map(function() {
-  this.route('buckets', {path: '/buckets'});
+  this.resource('buckets', {path: '/buckets'}, function() {
+
+  });
+  this.resource('bucket', {path: '/buckets/:bucket_name'});
   this.route('settings', {path: '/settings'});
   this.route('about', {path: '/about'});
+});
+
+App.S3Route = Ember.Route.extend({
+  beforeModel: function() {
+    var me = this;
+    if (!s3.isConfig) {
+      return me.store.find('settings', 's3credential').then(function(result){
+        s3.updateConfig(result);
+      });
+    }
+  }
 });
 
 App.IndexRoute = Ember.Route.extend({
@@ -25,7 +39,7 @@ App.IndexRoute = Ember.Route.extend({
   }
 });
 
-App.BucketsRoute = Ember.Route.extend({
+App.BucketsRoute = App.S3Route.extend({
   model: function() {
     var buckets = this.store.all('bucket');
     if (buckets.get('length') == 0) {
@@ -35,12 +49,13 @@ App.BucketsRoute = Ember.Route.extend({
   }
 });
 
-App.SettingsRoute = Ember.Route.extend({
-  setupController: function(controller, model) {
-    this._super(controller, model);
-    controller.copyModel(model);
-  },
+App.BucketRoute = App.S3Route.extend({
+  model: function(bucketName) {
+    return this.store.find('object', {Bucket: bucketName.bucket_name});
+  }
+})
 
+App.SettingsRoute = App.S3Route.extend({
   model: function() {
     var store = this.store;
     return this.store.find('settings', 's3credential').then(function(result){

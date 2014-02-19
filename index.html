@@ -34,8 +34,26 @@
 
     <script type="text/x-handlebars" data-template-name="buckets">
       {{#each}}
-        <div>{{name}}</div>
+        <div>
+          {{#link-to 'bucket' name}}
+            {{name}}
+          {{/link-to }}
+        </div>
       {{/each}}
+    </script>
+
+
+
+    <script type="text/x-handlebars" data-template-name="bucket">
+      <ul>
+        {{#each}}
+        <li>
+          <span>{{key}}</span>
+          <span>{{size}}</span>
+          <span>{{lastModified}}</span>
+        </li>
+        {{/each}}
+      </ul>
     </script>
 
     <script type="text/x-handlebars" data-template-name="settings">
@@ -93,8 +111,10 @@
     <script src="js/app.js"></script>
     <script src="js/router.js"></script>
     <script src="js/models/bucket.js"></script>
+    <script src="js/models/object.js"></script>
     <script src="js/models/settings.js"></script>
     <script src="js/controllers/bucketsController.js"></script>
+    <script src="js/controllers/bucketController.js"></script>
     <script src="js/controllers/settingsController.js"></script>
     <script src="js/controllers/aboutController.js"></script>
   </body>
