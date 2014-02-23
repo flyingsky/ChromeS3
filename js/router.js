@@ -51,7 +51,9 @@ App.BucketsRoute = App.S3Route.extend({
 
 App.BucketRoute = App.S3Route.extend({
   model: function(bucketName) {
-    return this.store.find('object', {Bucket: bucketName.bucket_name});
+    // TODO: bucket_name???
+    console.log(bucketName.bucket_name);
+    return this.store.find('objectWrap', bucketName.bucket_name);
   }
 })
 

@@ -23,7 +23,10 @@ window.s3 = {
     if (typeof(params) === 'string') {
       params = {Bucket: params};
     }
-    params = $.extend({Delimiter: '/'}, params);
+    params = $.extend({
+      Delimiter: '/',
+      MaxKeys: 100
+    }, params);
     new AWS.S3().listObjects(params, callback);
   }
 };

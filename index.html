@@ -42,15 +42,37 @@
       {{/each}}
     </script>
 
-
-
     <script type="text/x-handlebars" data-template-name="bucket">
+      <ol class="breadcrumb">
+        {{#each folder in folders}}
+          <li {{bind-attr class="folder.isActive:active:non-active"}}>
+            {{#if folder.isRoot}}
+              {{#link-to 'buckets'}} {{folder.name}} {{/link-to}}
+            {{else}}
+              {{#if folder.isActive}}
+                  {{folder.name}}
+              {{else}}
+                {{#link-to 'bucket' folder.objectLink}}
+                  {{folder.name}}
+                {{/link-to}}
+              {{/if}}
+            {{/if}}
+          </li>
+        {{/each}}
+      </ol>
+
       <ul>
-        {{#each}}
+        {{#each object in objects}}
         <li>
-          <span>{{key}}</span>
-          <span>{{size}}</span>
-          <span>{{lastModified}}</span>
+          {{#if object.isFolder}}
+            {{#link-to 'bucket' object.objectLink}}
+              <span>{{object.key}}</span>
+            {{/link-to }}
+          {{else}}
+            <span>{{object.key}}</span>
+          {{/if}}
+          <span>{{object.size}}</span>
+          <span>{{object.lastModified}}</span>
         </li>
         {{/each}}
       </ul>

@@ -5,3 +5,9 @@
 #about {
   text-align: center;
 }
+
+.breadcrumb > li.non-active:after {
+    content: "/\00a0";
+    padding: 0 5px;
+    color: #ccc;
+}

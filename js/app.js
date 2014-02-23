@@ -11,11 +11,28 @@ App.SettingsAdapter = DS.LSAdapter.extend({
 App.ApplicationAdapter = DS.Adapter.extend({
   _serverAPI: {
     'bucket': 'listBuckets',
-    'object': 'listObjects'
+    'objectWrap': 'listObjects'
   },
 
-  find: function() {
-    console.log('TODO find');
+  find: function(store, type, id) {
+    if (type.typeKey == 'objectWrap') {
+      var delimiter = '/';
+      var prefix = null;
+      var index = id.indexOf(delimiter);
+      var query = id;
+      if (index > 0) {
+        var bucket = id.substr(0, index);
+        prefix = id.substr(index + 1);
+        query = {
+          Bucket: bucket,
+          Prefix: prefix
+        };
+      }
+      return this.findQuery(store, type, query);
+    } else {
+      // TODO
+      return null;
+    }
   },
 
   createRecord: function() {

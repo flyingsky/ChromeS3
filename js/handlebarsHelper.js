@@ -12,3 +12,15 @@ Handlebars.registerHelper('loopObject', function(obj){
   }
   return JSON.stringify(result);
 });
+
+Ember.Handlebars.helper('objectLink', function(){
+  console.log(arguments);
+  var args = Array.prototype.slice.call(arguments, 0);
+  return args.join('/');
+});
+
+Ember.Handlebars.helper('highlight', function(value, options) {
+  var escaped = Handlebars.Utils.escapeExpression(value);
+  return new Handlebars.SafeString('<span class="highlight">' + escaped + '</span>');
+});
+
